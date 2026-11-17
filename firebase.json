@@ -1,0 +1,30 @@
+
+{
+  "flutter": {
+    "platforms": {
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "emplake-b18ba",
+          "configurations": {
+            "web": "1:489636287397:web:22bec7a3a1591f419e4e4c"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "target": "lizmath",
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

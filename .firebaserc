@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "emplake-b18ba"
+  },
+  "targets": {
+    "emplake-b18ba": {
+      "hosting": {
+        "lizmath": [
+          "lizmath"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

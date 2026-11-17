@@ -1,0 +1,36 @@
+
+{
+    "name": "LizMath",
+    "short_name": "LizMath",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#10121B",
+    "theme_color": "#8065F6",
+    "description": "LizMath - Um jogo educativo para aprender e praticar matemática de forma divertida.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
