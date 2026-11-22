@@ -53,12 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyClt2B_nHKPhDuYIE-OgjsXje-Hw3dhRas',
-    appId: '1:489636287397:web:22bec7a3a1591f419e4e4c',
-    messagingSenderId: '489636287397',
-    projectId: 'emplake-b18ba',
-    authDomain: 'emplake-b18ba.firebaseapp.com',
-    storageBucket: 'emplake-b18ba.firebasestorage.app',
-    measurementId: 'G-KFKPVDYTEX',
+    apiKey: 'AIzaSyC8zUbGGHvLirAzynUQEVWRyrk5CWWRqVo',
+    appId: '1:591240088723:web:0a1105d0766196b91dd166',
+    messagingSenderId: '591240088723',
+    projectId: 'emplake-80aa3',
+    authDomain: 'emplake-80aa3.firebaseapp.com',
+    storageBucket: 'emplake-80aa3.firebasestorage.app',
   );
 }

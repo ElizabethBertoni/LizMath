@@ -1,12 +1,23 @@
 {
   "projects": {
-    "default": "emplake-b18ba"
+    "default": "emplake-b18ba",
+    "novo": "emplake-80aa3"
   },
   "targets": {
     "emplake-b18ba": {
       "hosting": {
         "lizmath": [
           "lizmath"
+        ]
+      }
+    },
+    "emplake-80aa3": {
+      "hosting": {
+        "lizmath": [
+          "emplake-80aa3"
+        ],
+        "lizmath-app": [
+          "lizmath-app"
         ]
       }
     }

@@ -78,6 +78,29 @@ class _GameScreenState extends State<GameScreen> {
     return _isEnglish ? english : portuguese;
   }
 
+  int get _pointsForLevel {
+    switch (widget.level.toLowerCase()) {
+      case 'fácil':
+      case 'facil':
+        return 5;
+
+      case 'intermediário':
+      case 'intermediario':
+        return 10;
+
+      case 'avançado':
+      case 'avancado':
+        return 15;
+
+      case 'difícil':
+      case 'dificil':
+        return 20;
+
+      default:
+        return 10;
+    }
+  }
+
   String get _translatedLevel {
     switch (widget.level.toLowerCase()) {
       case 'fácil':
@@ -542,27 +565,28 @@ class _GameScreenState extends State<GameScreen> {
         if (correct) {
           try {
             final challengeId = _currentChallengeId;
+            final points = _pointsForLevel;
 
             final registered =
                 await FirestoreService.registerSolvedChallenge(
               challengeId,
-              points: 10,
+              points: points,
             );
 
             if (!mounted) return;
 
             if (registered) {
               setState(() {
-                score += 10;
-                _solvedChallengeIds.add(challengeId);
-              });
+              score += points;
+              _solvedChallengeIds.add(challengeId);
+            });
 
               _playSound('success');
 
               _showMessage(
                 _text(
-                  'Parabéns! Você ganhou 10 pontos! 🎉',
-                  'Congratulations! You earned 10 points! 🎉',
+                  'Parabéns! Você ganhou $points pontos! 🎉',
+                  'Congratulations! You earned $points points! 🎉',
                 ),
                 false,
               );
