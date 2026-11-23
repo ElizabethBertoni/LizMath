@@ -512,12 +512,15 @@ class _GameScreenState extends State<GameScreen> {
     return (value: value, consumed: consumed);
   }
 
+  
   Future<void> _verifyExpression() async {
     if (_isReturningOperators || _isVerifying) return;
 
     setState(() {
       _isVerifying = true;
     });
+
+    bool shouldReturnOperators = false;
 
     try {
       final tokens = _buildTokens();
@@ -563,6 +566,8 @@ class _GameScreenState extends State<GameScreen> {
             (leftValue - rightValue).abs() < 0.0000001;
 
         if (correct) {
+          shouldReturnOperators = true;
+
           try {
             final challengeId = _currentChallengeId;
             final points = _pointsForLevel;
@@ -577,19 +582,21 @@ class _GameScreenState extends State<GameScreen> {
 
             if (registered) {
               setState(() {
-              score += points;
-              _solvedChallengeIds.add(challengeId);
-            });
+                score += points;
+                _solvedChallengeIds.add(challengeId);
+              });
 
               _playSound('success');
 
-              _showMessage(
+                _showMessage(
                 _text(
                   'Parabéns! Você ganhou $points pontos! 🎉',
                   'Congratulations! You earned $points points! 🎉',
                 ),
                 false,
               );
+
+              _newChallenge();
             } else {
               _solvedChallengeIds.add(challengeId);
 
@@ -639,7 +646,9 @@ class _GameScreenState extends State<GameScreen> {
         );
       }
     } finally {
-      await _returnOperatorsToPanel();
+      if (shouldReturnOperators) {
+        await _returnOperatorsToPanel();
+      }
 
       if (mounted) {
         setState(() {
@@ -648,6 +657,7 @@ class _GameScreenState extends State<GameScreen> {
       }
     }
   }
+
 
   Future<void> _returnOperatorsToPanel() async {
     if (!mounted) return;
@@ -1302,6 +1312,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 }
 
+
 class _ExpressionParser {
   final List<String> tokens;
   final bool allowDecimalDivision;
@@ -1389,26 +1400,40 @@ class _ExpressionParser {
     if (_match('-')) return -_parseUnary();
 
     if (_match('√')) {
-      final value = _parseUnary();
+      final value = _parsePrimary();
 
       if (value < 0) {
         throw FormatException('Invalid square root');
       }
 
-      return math.sqrt(value);
+      return _applyFactorials(math.sqrt(value));
     }
 
     if (_match('∛')) {
-      final value = _parseUnary();
+      final value = _parsePrimary();
 
-      return value < 0
+      final result = value < 0
           ? -math.pow(-value, 1 / 3).toDouble()
           : math.pow(value, 1 / 3).toDouble();
+
+      return _applyFactorials(result);
     }
 
-    if (_match('|x|')) return _parseUnary().abs();
-    if (_match('⌊x⌋')) return _parseUnary().floorToDouble();
-    if (_match('⌈x⌉')) return _parseUnary().ceilToDouble();
+    if (_match('|x|')) {
+      return _applyFactorials(_parsePrimary().abs());
+    }
+
+    if (_match('⌊x⌋')) {
+      return _applyFactorials(
+        _parsePrimary().floorToDouble(),
+      );
+    }
+
+    if (_match('⌈x⌉')) {
+      return _applyFactorials(
+        _parsePrimary().ceilToDouble(),
+      );
+    }
 
     return _parsePower();
   }
@@ -1424,8 +1449,10 @@ class _ExpressionParser {
   }
 
   double _parsePostfix() {
-    double value = _parsePrimary();
+    return _applyFactorials(_parsePrimary());
+  }
 
+  double _applyFactorials(double value) {
     while (_match('!')) {
       if (value < 0 ||
           value != value.roundToDouble() ||
